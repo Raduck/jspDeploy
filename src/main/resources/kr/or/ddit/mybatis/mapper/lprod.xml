@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lprod">
+	<!-- lprod 정보 페이징 조회 -->
+	<select id="getLprodPageList" resultType="lprodVo" parameterType="map">
+	SELECT *
+		FROM
+			(SELECT a.*, ROWNUM rn
+				FROM
+					(SELECT *
+						FROM lprod
+					ORDER BY lprod_id)a)
+		WHERE rn BETWEEN (#{page}-1)*#{pageSize}+1 AND #{page}*#{pageSize}
+	</select>
+	
+	<select id="getLprodTotCnt" resultType="int">
+		select count(*) from lprod
+	</select>
+	
+	<!-- <select id="getLprodLguList" resultType="lprodVo" parameterType="String">
+	select prod_id, prod_name from prod where prod_lgu='P101';
+	</select> -->
+	
+	
+</mapper>
